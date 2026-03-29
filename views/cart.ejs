@@ -1,0 +1,196 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-screen flex flex-col lg:flex-row items-start px-4 sm:px-8 lg:px-20 py-20 lg:py-24 gap-6 lg:gap-10">
+    
+    <!-- Cart Items Section -->
+    <div class="w-full lg:w-[65%] flex flex-col gap-5">
+        <div class="mb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">
+                <i class="ri-shopping-cart-line mr-2 text-orange-500"></i>Your Cart
+            </h2>
+            <p class="text-gray-400 text-sm">
+                <%= cart && cart.items ? cart.items.length : 0 %> item<%= (cart && cart.items && cart.items.length !== 1) ? 's' : '' %> in your cart
+            </p>
+        </div>
+
+        <!-- Cart Items List -->
+        <% if(cart && cart.items && cart.items.length > 0) { %>
+            <% cart.items.forEach(function(item) { 
+                let product = item.product;
+                let discountedPrice = product.price - (product.price * product.discount / 100);
+            %>
+                <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg overflow-hidden border border-zinc-700 hover:border-orange-500/50 transition duration-300 shadow-lg">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <!-- Product Image -->
+                        <div class="w-full sm:w-48 h-48 sm:h-auto flex items-center justify-center bg-gradient-to-br from-zinc-700 to-zinc-800 relative">
+                            <div class="absolute inset-0 bg-[<%= product.bgcolor %>] opacity-60"></div>
+                            <img class="relative z-10 h-32 sm:h-40 object-contain drop-shadow-xl" 
+                                 src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                                 alt="<%= product.name %>">
+                            
+                            <!-- Discount Badge -->
+                            <% if(product.discount > 0) { %>
+                                <div class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-full z-20">
+                                    <%= product.discount %>% OFF
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="flex-1 flex flex-col justify-between p-4 sm:p-5">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-semibold text-white mb-2">
+                                    <%= product.name %>
+                                </h3>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <% if(product.discount > 0) { %>
+                                        <span class="text-xl font-bold text-orange-500">
+                                            ₹ <%= item.price.toLocaleString('en-IN') %>
+                                        </span>
+                                        <span class="text-sm text-gray-400 line-through">
+                                            ₹ <%= product.price.toLocaleString('en-IN') %>
+                                        </span>
+                                    <% } else { %>
+                                        <span class="text-xl font-bold text-orange-500">
+                                            ₹ <%= item.price.toLocaleString('en-IN') %>
+                                        </span>
+                                    <% } %>
+                                </div>
+                                <p class="text-sm text-gray-400 mb-1">
+                                    <span class="text-gray-300">Size:</span> <%= item.size %>
+                                </p>
+                                <p class="text-sm text-orange-400 font-medium">
+                                    Item Total: ₹ <%= (item.price * item.quantity).toLocaleString('en-IN') %>
+                                </p>
+                            </div>
+
+                            <!-- Quantity Controls & Remove -->
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-3 bg-zinc-700/50 rounded-lg p-2">
+                                    <button class="w-8 h-8 bg-zinc-600 hover:bg-orange-500 flex rounded-full items-center justify-center transition duration-300 group">
+                                        <i class="ri-subtract-line text-white group-hover:scale-110 transition duration-300"></i>
+                                    </button>
+                                    <div class="px-4 py-1 rounded-md bg-zinc-900 text-white font-semibold min-w-[3rem] text-center">
+                                        <%= item.quantity.toString().padStart(2, '0') %>
+                                    </div>
+                                    <button class="w-8 h-8 bg-zinc-600 hover:bg-orange-500 flex rounded-full items-center justify-center transition duration-300 group">
+                                        <i class="ri-add-line text-white group-hover:scale-110 transition duration-300"></i>
+                                    </button>
+                                </div>
+
+                                <a href="/cart/remove/<%= item._id %>" class="flex items-center gap-2 text-red-400 hover:text-red-500 transition duration-300 text-sm font-medium">
+                                    <i class="ri-delete-bin-line"></i>
+                                    <span class="hidden sm:inline">Remove</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <!-- Empty Cart Message -->
+            <div class="w-full h-96 flex flex-col items-center justify-center text-center bg-zinc-800/30 backdrop-blur-sm rounded-lg border border-zinc-700">
+                <i class="ri-shopping-cart-line text-7xl text-zinc-600 mb-4"></i>
+                <h3 class="text-xl text-white mb-2">Your cart is empty</h3>
+                <p class="text-sm text-gray-400 mb-6">Add some sneakers to get started!</p>
+                <a href="/shop" class="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-lg font-semibold transition duration-300 transform hover:scale-105">
+                    <i class="ri-shopping-bag-line mr-2"></i>Shop Now
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Price Summary Section -->
+    <div class="w-full lg:w-[35%] lg:sticky lg:top-24 h-fit">
+        <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg border border-zinc-700 p-6 shadow-xl">
+            <h3 class="text-xl font-bold text-white mb-6 border-b border-zinc-700 pb-3">
+                <i class="ri-file-list-line mr-2 text-orange-500"></i>Price Breakdown
+            </h3>
+
+            <%
+                let totalMRP = 0;
+                let totalDiscount = 0;
+                let itemCount = 0;
+                
+                if(cart && cart.items) {
+                    cart.items.forEach(function(item) {
+                        let product = item.product;
+                        totalMRP += (product.price * item.quantity);
+                        totalDiscount += ((product.price * product.discount / 100) * item.quantity);
+                        itemCount = cart.items.length;
+                    });
+                }
+                
+                let platformFee = itemCount > 0 ? 20 : 0;
+                let shippingFee = 0;
+                let finalTotal = cart && cart.totalAmount ? cart.totalAmount : (totalMRP - totalDiscount + platformFee + shippingFee);
+            %>
+
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-gray-300">Total MRP</h4>
+                    <h4 class="text-white font-medium">₹ <%= totalMRP.toLocaleString('en-IN') %></h4>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <h4 class="text-gray-300">Discount on MRP</h4>
+                    <h4 class="text-green-500 font-medium">
+                        <% if(totalDiscount > 0) { %>
+                            - ₹ <%= totalDiscount.toLocaleString('en-IN') %>
+                        <% } else { %>
+                            ₹ 0
+                        <% } %>
+                    </h4>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <h4 class="text-gray-300">Platform Fee</h4>
+                    <h4 class="text-white font-medium">
+                        <% if(platformFee > 0) { %>
+                            ₹ <%= platformFee %>
+                        <% } else { %>
+                            ₹ 0
+                        <% } %>
+                    </h4>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <h4 class="text-gray-300">Shipping Fee</h4>
+                    <h4 class="text-green-500 font-bold">FREE</h4>
+                </div>
+            </div>
+
+            <div class="w-full h-[1px] bg-zinc-700 my-6"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-white">Total Amount</h3>
+                <h3 class="text-2xl font-bold text-orange-500">₹ <%= finalTotal.toLocaleString('en-IN') %></h3>
+            </div>
+
+            <% if(cart && cart.items && cart.items.length > 0) { %>
+                <form action="/checkout" method="get">
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="ri-shopping-cart-line mr-2"></i>Proceed to Checkout
+                    </button>
+                </form>
+                
+                <a href="/shop" class="block w-full text-center py-3 mt-3 bg-zinc-700 hover:bg-zinc-600 text-white font-semibold rounded-lg transition duration-300">
+                    <i class="ri-arrow-left-line mr-2"></i>Continue Shopping
+                </a>
+            <% } %>
+
+            <!-- Savings Badge -->
+            <% if(totalDiscount > 0) { %>
+                <div class="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+                    <p class="text-green-400 text-sm text-center">
+                        <i class="ri-percent-line mr-1"></i>
+                        You're saving ₹ <%= totalDiscount.toLocaleString('en-IN') %> on this order!
+                    </p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+</div>
+
+<%- include('./partials/footer') %>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakrLab - Your Ultimate Sneaker Destination</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-['helvetica_now_display'] bg-gradient-to-br from-zinc-900 via-black to-zinc-900">
+    <nav class="w-full fixed top-0 left-0 px-5 sm:px-8 md:px-10 py-4 z-40 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800/50">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+                Sneakr<span class="text-orange-500">Lab</span>
+            </h3>
+            
+           <% if (loggedin && role === "owner") { %>
+
+    <!-- OWNER HEADER -->
+    <div class="hidden md:flex items-center gap-6">
+        <a href="/owner/dashboard" class="text-gray-300 hover:text-orange-500 transition duration-300">Dashboard</a>
+        <a href="/owner/products" class="text-gray-300 hover:text-orange-500 transition duration-300">Manage Products</a>
+        <a href="/owners/orders" class="text-gray-300 hover:text-orange-500 transition duration-300">Orders</a>
+        <a href="/users/logout" class="text-gray-300 hover:text-red-500 transition duration-300">Logout</a>
+    </div>
+
+<% } else if (loggedin) { %>
+
+    <!-- NORMAL USER HEADER -->
+    <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="text-gray-300 hover:text-orange-500 transition duration-300">Home</a>
+        <a href="/shop" class="text-gray-300 hover:text-orange-500 transition duration-300">Shop</a>
+        <a href="/cart" class="text-gray-300 hover:text-orange-500 transition duration-300">Cart</a>
+        <a href="/users/orders" class="text-gray-300 hover:text-orange-500 transition duration-300">Orders</a>
+        <a href="/users/logout" class="text-gray-300 hover:text-red-500 transition duration-300">Logout</a>
+    </div>
+
+<% } else { %>
+
+    <!-- NOT LOGGED IN -->
+    <div class="hidden md:flex items-center gap-6">
+        <a href="/users/login" class="text-gray-300 hover:text-orange-500 transition duration-300">Login</a>
+        <a href="/owners" class="text-gray-300 hover:text-red-500 transition duration-300">Owner Login</a>
+    </div>
+
+<% } %>
+
+
+            <!-- Optional: Navigation Links -->
+            
+
+            <!-- Mobile Menu Icon (Optional) -->
+            <button class="md:hidden text-white text-2xl">
+                <i class="ri-menu-line"></i>
+            </button>
+        </div>
+    </nav>

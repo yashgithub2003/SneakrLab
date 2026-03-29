@@ -1,0 +1,140 @@
+<%- include('./partials/header') %>
+
+    <!-- Success Message -->
+    <% if(success.length > 0){ %>
+        <div class="fixed top-5 left-1/2 -translate-x-1/2 p-3 px-5 rounded-md bg-green-500 z-50 shadow-lg max-w-md mx-4 animate-pulse">
+            <span class="inline-block text-white text-sm md:text-base font-medium">
+                ✓ <%= success %>
+            </span>
+        </div>
+    <% } %>
+
+    <div class="min-h-screen flex flex-col">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-10 py-20 lg:py-24 flex flex-col lg:flex-row flex-grow gap-6">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-full lg:w-[25%] flex flex-col items-start bg-zinc-800/30 backdrop-blur-sm rounded-lg p-6 border border-zinc-700/50 lg:sticky lg:top-24 h-fit">
+                <h3 class="text-gray-300 font-semibold text-sm uppercase tracking-wide mb-4">
+                    <i class="ri-dashboard-line mr-2"></i>Admin Panel
+                </h3>
+                <div class="flex flex-col w-full">
+                    <a class="block w-full mb-3 text-gray-400 hover:text-orange-500 hover:bg-zinc-700/50 px-3 py-2 rounded-md transition duration-300 text-sm" href="/admin/products">
+                        <i class="ri-shopping-bag-line mr-2"></i>All Products
+                    </a>
+                    <a class="block w-full mb-3 text-orange-500 bg-zinc-700/50 px-3 py-2 rounded-md transition duration-300 text-sm font-semibold" href="/products/create">
+                        <i class="ri-add-circle-line mr-2"></i>Create New Product
+                    </a>
+                    <a class="block w-full mb-3 text-gray-400 hover:text-orange-500 hover:bg-zinc-700/50 px-3 py-2 rounded-md transition duration-300 text-sm" href="/owners/orders">
+                        <i class="ri-file-list-line mr-2"></i>Orderssss
+                    </a>
+                    <a class="block w-full mb-3 text-gray-400 hover:text-orange-500 hover:bg-zinc-700/50 px-3 py-2 rounded-md transition duration-300 text-sm" href="/admin/users">
+                        <i class="ri-user-line mr-2"></i>Users
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="w-full lg:w-3/4 bg-zinc-800/40 backdrop-blur-sm p-6 sm:p-8 shadow-xl rounded-lg border border-zinc-700/50">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">
+                        <i class="ri-add-box-line mr-2 text-orange-500"></i>Create New Product
+                    </h2>
+                </div>
+
+                <form autocomplete="off" action="/products/create" method="post" enctype="multipart/form-data">
+                    
+                    <!-- Product Details Section -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-zinc-700 pb-2">
+                            <i class="ri-information-line mr-2 text-orange-500"></i>Product Details
+                        </h3>
+                        
+                        <!-- Image Upload -->
+                        <div class="mb-5">
+                            <label class="block mb-2 font-medium text-gray-300 text-sm">Product Image</label>
+                            <input 
+                                name="image" 
+                                type="file" 
+                                accept="image/*"
+                                required
+                                class="w-full py-3 px-4 rounded-lg bg-zinc-700/50 border border-zinc-600 text-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 file:cursor-pointer cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300">
+                        </div>
+
+                        <!-- Product Name & Brand -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-300 text-sm">Product Name *</label>
+                                <input 
+                                    name="name" 
+                                    type="text" 
+                                    placeholder="e.g., Nike Air Max 270"
+                                    required
+                                    class="border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                            </div>
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-300 text-sm">Brand</label>
+                                <input 
+                                    name="brand" 
+                                    type="text" 
+                                    placeholder="e.g., Nike"
+                                    class="border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Price & Discount -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-300 text-sm">Product Price (₹) *</label>
+                                <input 
+                                    name="price" 
+                                    type="number" 
+                                    placeholder="e.g., 5999"
+                                    required
+                                    min="0"
+                                    step="0.01"
+                                    class="border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                            </div>
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-300 text-sm">Discount (%)</label>
+                                <input 
+                                    name="discount" 
+                                    type="number" 
+                                    placeholder="e.g., 10"
+                                    min="0"
+                                    max="100"
+                                    value="0"
+                                    class="border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label class="block mb-2 font-medium text-gray-300 text-sm">Description</label>
+                            <textarea 
+                                name="description"
+                                rows="4"
+                                placeholder="Enter product description, features, specifications..."
+                                class="border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-zinc-700">
+                        <button 
+                            type="submit"
+                            class="w-full sm:w-auto px-6 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-500 transition duration-300 transform hover:scale-105 active:scale-95 shadow-lg">
+                            <i class="ri-add-line mr-2"></i>Create New Product
+                        </button>
+                        <button 
+                            type="reset"
+                            class="w-full sm:w-auto px-6 py-3 rounded-lg bg-zinc-700 text-white font-semibold hover:bg-zinc-600 transition duration-300">
+                            <i class="ri-refresh-line mr-2"></i>Reset Form
+                        </button>
+                    </div>
+                </form>
+            </main>
+
+        </div>
+    </div>
+
+<%- include('./partials/footer') %>

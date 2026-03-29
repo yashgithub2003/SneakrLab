@@ -1,0 +1,265 @@
+<%- include('./partials/header') %>
+
+    <!-- Error Message -->
+    <% if(error && error.length > 0){ %>
+        <div class="fixed top-5 left-1/2 -translate-x-1/2 p-3 px-5 rounded-md bg-red-500 z-50 shadow-lg max-w-md mx-4 animate-pulse">
+            <span class="inline-block text-white text-sm md:text-base font-medium">
+                ⚠️ <%= error %>
+            </span>
+        </div>
+    <% } %>
+
+    <div class="w-full min-h-screen px-4 sm:px-8 lg:px-20 py-20 lg:py-24">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Checkout Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">
+                    <i class="ri-shopping-bag-3-line mr-2 text-orange-500"></i>Checkout
+                </h1>
+                <p class="text-gray-400 text-sm">Complete your order</p>
+            </div>
+
+            <form action="/orders/create" method="post">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    
+                    <!-- Left Section - Forms -->
+                    <div class="w-full lg:w-[65%] space-y-6">
+                        
+                        <!-- Shipping Address -->
+                        <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg border border-zinc-700 p-6 sm:p-8 shadow-xl">
+                            <h2 class="text-xl font-bold text-white mb-6 border-b border-zinc-700 pb-3">
+                                <i class="ri-map-pin-line mr-2 text-orange-500"></i>Shipping Address
+                            </h2>
+
+                            <div class="space-y-4">
+                                <!-- Full Name -->
+                                <div>
+                                    <label class="block mb-2 font-medium text-gray-300 text-sm">Full Name *</label>
+                                    <input 
+                                        name="fullName" 
+                                        type="text" 
+                                        placeholder="Enter your full name"
+                                        required
+                                        class="w-full border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                                </div>
+
+                                <!-- Address -->
+                                <div>
+                                    <label class="block mb-2 font-medium text-gray-300 text-sm">Address *</label>
+                                    <textarea 
+                                        name="address" 
+                                        rows="3"
+                                        placeholder="House number, street name, area"
+                                        required
+                                        class="w-full border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm resize-none"></textarea>
+                                </div>
+
+                                <!-- City and Postal Code -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block mb-2 font-medium text-gray-300 text-sm">City *</label>
+                                        <input 
+                                            name="city" 
+                                            type="text" 
+                                            placeholder="e.g., Mumbai"
+                                            required
+                                            class="w-full border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-2 font-medium text-gray-300 text-sm">Postal Code *</label>
+                                        <input 
+                                            name="postalCode" 
+                                            type="text" 
+                                            placeholder="e.g., 400001"
+                                            required
+                                            maxlength="6"
+                                            class="w-full border border-zinc-600 bg-zinc-700/50 p-3 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300 text-sm">
+                                    </div>
+                                </div>
+
+                                <!-- Country -->
+                                <div>
+                                    <label class="block mb-2 font-medium text-gray-300 text-sm">Country *</label>
+                                    <select 
+                                        name="country" 
+                                        required
+                                        class="w-full bg-zinc-700/50 border border-zinc-600 rounded-lg px-3 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300 cursor-pointer">
+                                        <option value="India">India</option>
+                                        <option value="USA">United States</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg border border-zinc-700 p-6 sm:p-8 shadow-xl">
+                            <h2 class="text-xl font-bold text-white mb-6 border-b border-zinc-700 pb-3">
+                                <i class="ri-bank-card-line mr-2 text-orange-500"></i>Payment Method
+                            </h2>
+
+                            <div class="space-y-3">
+                                <!-- Cash on Delivery -->
+                                <label class="flex items-center p-4 bg-zinc-700/30 rounded-lg border border-zinc-600 cursor-pointer hover:border-orange-500 transition duration-300 group">
+                                    <input 
+                                        type="radio" 
+                                        name="paymentMethod" 
+                                        value="COD" 
+                                        checked
+                                        class="w-4 h-4 text-orange-500 focus:ring-orange-500 focus:ring-2">
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white font-semibold text-sm group-hover:text-orange-500 transition duration-300">
+                                                <i class="ri-money-rupee-circle-line mr-2"></i>Cash on Delivery
+                                            </span>
+                                            <span class="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full">Recommended</span>
+                                        </div>
+                                        <p class="text-gray-400 text-xs mt-1">Pay when you receive your order</p>
+                                    </div>
+                                </label>
+
+                                <!-- Card Payment -->
+                                <label class="flex items-center p-4 bg-zinc-700/30 rounded-lg border border-zinc-600 cursor-pointer hover:border-orange-500 transition duration-300 group">
+                                    <input 
+                                        type="radio" 
+                                        name="paymentMethod" 
+                                        value="CARD"
+                                        class="w-4 h-4 text-orange-500 focus:ring-orange-500 focus:ring-2">
+                                    <div class="ml-3 flex-1">
+                                        <span class="text-white font-semibold text-sm group-hover:text-orange-500 transition duration-300">
+                                            <i class="ri-bank-card-2-line mr-2"></i>Credit / Debit Card
+                                        </span>
+                                        <p class="text-gray-400 text-xs mt-1">Secure payment with your card</p>
+                                    </div>
+                                </label>
+
+                                <!-- UPI Payment -->
+                                <label class="flex items-center p-4 bg-zinc-700/30 rounded-lg border border-zinc-600 cursor-pointer hover:border-orange-500 transition duration-300 group">
+                                    <input 
+                                        type="radio" 
+                                        name="paymentMethod" 
+                                        value="UPI"
+                                        class="w-4 h-4 text-orange-500 focus:ring-orange-500 focus:ring-2">
+                                    <div class="ml-3 flex-1">
+                                        <span class="text-white font-semibold text-sm group-hover:text-orange-500 transition duration-300">
+                                            <i class="ri-smartphone-line mr-2"></i>UPI Payment
+                                        </span>
+                                        <p class="text-gray-400 text-xs mt-1">Google Pay, PhonePe, Paytm & more</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Section - Order Summary -->
+                    <div class="w-full lg:w-[35%]">
+                        <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg border border-zinc-700 p-6 shadow-xl lg:sticky lg:top-24">
+                            <h2 class="text-xl font-bold text-white mb-6 border-b border-zinc-700 pb-3">
+                                <i class="ri-file-list-line mr-2 text-orange-500"></i>Order Summary
+                            </h2>
+
+                            <!-- Cart Items -->
+                            <div class="space-y-4 mb-6 max-h-64 overflow-y-auto">
+                                <% 
+                                    let totalMRP = 0;
+                                    let totalDiscount = 0;
+                                    
+                                    if (cart && cart.items && cart.items.length > 0) {
+                                        cart.items.forEach(function(item) {
+                                            if (item.product) {
+                                                const itemTotal = item.price * item.quantity;
+                                                totalMRP += itemTotal;
+                                                
+                                                const discount = item.product.discount || 0;
+                                                totalDiscount += (itemTotal * discount / 100);
+                                %>
+                                    <div class="flex items-center gap-3 pb-3 border-b border-zinc-700/50">
+                                        <img class="w-16 h-16 object-contain bg-zinc-700/50 rounded-md p-1" 
+                                             src="data:image/jpeg;base64,<%= item.product.image.toString('base64') %>" 
+                                             alt="<%= item.product.name %>">
+                                        <div class="flex-1">
+                                            <h3 class="text-white text-sm font-semibold mb-1"><%= item.product.name %></h3>
+                                            <p class="text-gray-400 text-xs">Size: <%= item.size %> | Qty: <%= item.quantity %></p>
+                                            <p class="text-orange-500 text-sm font-bold mt-1">₹ <%= itemTotal.toLocaleString('en-IN') %></p>
+                                        </div>
+                                    </div>
+                                <% 
+                                            }
+                                        });
+                                    } else {
+                                %>
+                                    <p class="text-gray-400 text-sm text-center py-4">Your cart is empty</p>
+                                <% 
+                                    }
+                                %>
+                            </div>
+
+                            <!-- Price Breakdown -->
+                            <div class="space-y-3 mb-6">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-300">Subtotal</span>
+                                    <span class="text-white font-medium">₹ <%= totalMRP.toLocaleString('en-IN') %></span>
+                                </div>
+                                
+                                <% if(totalDiscount > 0) { %>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-300">Discount</span>
+                                        <span class="text-green-500 font-medium">- ₹ <%= totalDiscount.toLocaleString('en-IN') %></span>
+                                    </div>
+                                <% } %>
+                                
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-300">Platform Fee</span>
+                                    <span class="text-white font-medium">₹ 20</span>
+                                </div>
+                                
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-300">Shipping</span>
+                                    <span class="text-green-500 font-bold">FREE</span>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-zinc-700 pt-4 mb-6">
+                                <% let finalTotal = totalMRP - totalDiscount + 20; %>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-white font-bold text-lg">Total Amount</span>
+                                    <span class="text-orange-500 font-bold text-2xl">₹ <%= finalTotal.toLocaleString('en-IN') %></span>
+                                </div>
+                            </div>
+
+                            <!-- Savings Badge -->
+                            <% if(totalDiscount > 0) { %>
+                                <div class="mb-6 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                                    <p class="text-green-400 text-xs text-center">
+                                        <i class="ri-percent-line mr-1"></i>
+                                        You're saving ₹ <%= totalDiscount.toLocaleString('en-IN') %> on this order!
+                                    </p>
+                                </div>
+                            <% } %>
+
+                            <!-- Place Order Button -->
+                            <button 
+                                type="submit"
+                                class="w-full py-4 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 active:scale-95 shadow-lg text-sm sm:text-base">
+                                <i class="ri-check-line mr-2"></i>Place Order
+                            </button>
+
+                            <!-- Security Badge -->
+                            <div class="mt-4 flex items-center justify-center gap-2 text-gray-400 text-xs">
+                                <i class="ri-lock-line"></i>
+                                <span>Secure Checkout</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+<%- include('./partials/footer') %>

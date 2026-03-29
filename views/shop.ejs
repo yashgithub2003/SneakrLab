@@ -1,0 +1,180 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-screen flex flex-col lg:flex-row items-start px-4 sm:px-8 lg:px-20 py-20 lg:py-24 gap-8">
+    <!-- Success Message -->
+    <% if(success.length > 0){ %>
+        <div class="fixed top-5 left-1/2 -translate-x-1/2 p-3 px-5 rounded-md bg-green-500 z-50 shadow-lg max-w-md mx-4 animate-pulse">
+            <span class="inline-block text-white text-sm md:text-base font-medium">
+                ✓ <%= success %>
+            </span>
+        </div>
+    <% } %>
+    <% if(error.length > 0){ %>
+        <div class="fixed top-16 left-1/2 -translate-x-1/2 bg-red-500 text-white p-3 rounded">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <!-- Sidebar - Filters & Navigation -->
+    <div class="w-full lg:w-[25%] flex flex-col items-start bg-zinc-800/30 backdrop-blur-sm rounded-lg p-6 lg:sticky lg:top-24 border border-zinc-700/50">
+        
+        <!-- Sort By -->
+        <div class="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-start gap-2 mb-8 w-full">
+            <h3 class="text-gray-300 font-semibold text-sm uppercase tracking-wide">Sort by</h3>
+            <form action="/shop" class="w-full sm:w-auto">
+                <select class="bg-zinc-700 border-[1px] border-zinc-600 rounded-md px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300 w-full sm:w-auto cursor-pointer" name="sortby" id="">
+                    <option value="popular">Popular</option>
+                    <option value="newest">Newest</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="flex flex-col w-full border-t border-zinc-700 pt-6">
+            <h4 class="text-gray-300 font-semibold text-sm uppercase tracking-wide mb-4">Collections</h4>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-star-line mr-2"></i>New Collection
+            </a>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-shopping-bag-line mr-2"></i>All Products
+            </a>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-price-tag-3-line mr-2"></i>Discounted Products
+            </a>
+        </div>
+
+        <!-- Filters -->
+        <div class="w-full border-t border-zinc-700 pt-6 mt-6">
+            <h4 class="text-gray-300 font-semibold text-sm uppercase tracking-wide mb-4">
+                <i class="ri-filter-line mr-2"></i>Filter by
+            </h4>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-checkbox-circle-line mr-2"></i>Availability
+            </a>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-percent-line mr-2"></i>Discount
+            </a>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-palette-line mr-2"></i>Color
+            </a>
+            <a class="block w-fit mb-3 text-gray-400 hover:text-orange-500 transition duration-300 text-sm" href="">
+                <i class="ri-ruler-line mr-2"></i>Size
+            </a>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="w-full lg:w-[75%] flex flex-col gap-5">
+        <div class="mb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Explore Our Collection
+            </h2>
+            <p class="text-gray-400 text-sm">Discover the latest and greatest sneakers</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+    <% products.forEach(function(product){ %>
+        <div class="group transform hover:scale-105 transition duration-300 bg-zinc-800/60 backdrop-blur-sm rounded-lg shadow-xl hover:shadow-2xl border border-zinc-700 hover:border-orange-500/50">
+            
+            <!-- Product Image -->
+            <div class="w-full h-52 sm:h-56 lg:h-60 flex items-center justify-center bg-gradient-to-br from-zinc-700 to-zinc-800 rounded-t-lg overflow-hidden relative shadow-inner">
+                <img class="relative z-10 h-[12rem] sm:h-[13rem] lg:h-[14rem] object-contain transition duration-300 group-hover:scale-110 drop-shadow-2xl" 
+                     src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                     alt="<%= product.name %>">
+                
+                <% if(product.discount > 0) { %>
+                    <div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                        -<%= product.discount %>% OFF
+                    </div>
+                <% } %>
+
+                <% if(product.brand) { %>
+                    <div class="absolute top-3 left-3 bg-zinc-900/80 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                        <%= product.brand %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Product Info -->
+            <div class="px-4 py-4 bg-zinc-900/80 rounded-b-lg border-t border-zinc-700/50">
+
+                <h3 class="font-semibold text-sm sm:text-base mb-1 text-white">
+                    <%= product.name %>
+                </h3>
+
+                <% 
+                    let discountedPrice = product.discount > 0 
+                        ? product.price - (product.price * product.discount / 100) 
+                        : product.price;
+                %>
+
+                <div class="flex items-center gap-2 mb-3">
+                    <h4 class="text-sm sm:text-base font-bold text-orange-500">
+                        ₹ <%= discountedPrice.toLocaleString('en-IN') %>
+                    </h4>
+                    <% if(product.discount > 0) { %>
+                        <span class="text-xs text-gray-400 line-through">
+                            ₹ <%= product.price.toLocaleString('en-IN') %>
+                        </span>
+                    <% } %>
+                </div>
+
+                <!-- ADD TO CART FORM -->
+                <form action="/cart/add" method="POST" class="flex items-center gap-2">
+
+                    <!-- Hidden Product ID -->
+                    <input type="hidden" name="productId" value="<%= product._id %>">
+
+                    <!-- Size Dropdown (You must pass sizes from backend) -->
+                    <select name="size" 
+                        class="bg-zinc-700 text-white text-xs rounded-md px-2 py-1 border border-zinc-600">
+                        <option value="">Size</option>
+
+                        <% 
+                        // assuming you pass inventory map from backend
+                        if(product.availableSizes){ 
+                            product.availableSizes.forEach(function(size){ %>
+                                <option value="<%= size %>"><%= size %></option>
+                        <%  }) 
+                        } %>
+                    </select>
+
+                    <!-- Quantity -->
+                    <input type="number" 
+                           name="quantity" 
+                           value="1" 
+                           min="1"
+                           class="w-12 bg-zinc-700 text-white text-xs rounded-md px-2 py-1 border border-zinc-600">
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="w-9 h-9 flex items-center justify-center rounded-full 
+                               bg-gradient-to-r from-orange-500 to-orange-600 
+                               hover:from-orange-600 hover:to-orange-700 
+                               transition duration-300 transform hover:rotate-90">
+                        <i class="ri-add-line text-white text-lg font-bold"></i>
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+
+        <!-- No Products Message -->
+        <% if(products.length === 0) { %>
+            <div class="w-full h-64 flex flex-col items-center justify-center text-center">
+                <i class="ri-shopping-bag-line text-6xl text-zinc-700 mb-4"></i>
+                <h3 class="text-xl text-gray-400">No products found</h3>
+                <p class="text-sm text-gray-500 mt-2">Try adjusting your filters</p>
+            </div>
+        <% } %>
+    </div>
+
+</div>
+
+<%- include('./partials/footer') %>

@@ -1,0 +1,81 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-screen flex items-center justify-center px-4 sm:px-8 lg:px-20 py-20">
+    <div class="w-full max-w-md">
+        <!-- Login Card -->
+        <div class="bg-zinc-800/60 backdrop-blur-sm rounded-lg border border-zinc-700 p-8 shadow-xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full mb-4">
+                    <i class="ri-admin-line text-3xl text-white"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Admin Access</h2>
+                <p class="text-gray-400 text-sm">Sign in to manage your store</p>
+            </div>
+
+            <!-- Login Form -->
+            <form action="/owners/login" method="post" class="space-y-5">
+                <!-- Email Field -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="ri-mail-line mr-1 text-orange-500"></i>Email Address
+                    </label>
+                    <input 
+                        class="block bg-zinc-700/50 w-full px-4 py-3 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition duration-300"
+                        type="email" 
+                        placeholder="admin@example.com" 
+                        name="email"
+                        required>
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="ri-lock-line mr-1 text-orange-500"></i>Password
+                    </label>
+                    <input 
+                        class="block bg-zinc-700/50 w-full px-4 py-3 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition duration-300"
+                        type="password" 
+                        placeholder="Enter your password" 
+                        name="password"
+                        required>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="w-full py-3 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg mt-6">
+                    <i class="ri-login-box-line mr-2"></i>Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-zinc-700"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-zinc-800 text-gray-400">Secure Admin Portal</span>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="text-center">
+                <p class="text-sm text-gray-400">
+                    <i class="ri-shield-check-line text-green-500 mr-1"></i>
+                    Protected by secure authentication
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Shop Link -->
+        <div class="text-center mt-6">
+            <a href="/shop" class="inline-flex items-center text-sm text-gray-400 hover:text-orange-500 transition duration-300">
+                <i class="ri-arrow-left-line mr-2"></i>
+                Back to Shop
+            </a>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

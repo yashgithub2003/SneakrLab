@@ -1,0 +1,87 @@
+
+# =========================
+# Node.js / Express
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory (testing)
+coverage/
+
+# Build / production
+dist/
+build/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / Editor files
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+
+# =========================
+# Uploads (for eCommerce images, etc.)
+# =========================
+uploads/
+public/uploads/
+
+# =========================
+# Cache
+# =========================
+.cache/
+*.cache
+
+# =========================
+# Parcel / Webpack / Vite
+# =========================
+.parcel-cache/
+.vite/
+dist/
+
+# =========================
+# Optional: Database files
+# (if using local DB like SQLite)
+# =========================
+*.sqlite
+*.db
+
+# =========================
+# Optional: Secrets
+# =========================
+config/secrets.json
+
+# =========================
+# Optional: Logs for payment systems
+# =========================
+payment-logs/
