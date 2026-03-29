@@ -45,10 +45,3 @@ SneakrLab is a full-stack web application designed to provide a seamless online 
 5. System ensures secure access via role-based control  
 
 ---
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/yashgithub2003/SneakrLab.git
-cd SneakrLab
